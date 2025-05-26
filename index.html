@@ -1,254 +1,116 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PLB - Agencia de Publicidad Digital en YouTube</title>
-  <style>
-    /* Reset básico */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    body {
-      background: #fff;
-      color: #222;
-      line-height: 1.6;
-    }
-    header {
-      background: #ff0000; /* rojo YouTube */
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 {
-      font-size: 1.8rem;
-      font-weight: bold;
-      letter-spacing: 3px;
-      cursor: default;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 1.5rem;
-      font-weight: 600;
-      transition: opacity 0.3s ease;
-    }
-    nav a:hover {
-      opacity: 0.8;
-    }
+// src/App.jsx
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
 
-    /* Hero */
-    .hero {
-      background: url('https://img.youtube.com/vi/4fndeDfaWCg/maxresdefault.jpg') center/cover no-repeat;
-      height: 70vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 0 1rem;
-      color: white;
-      text-shadow: 0 0 10px rgba(0,0,0,0.7);
-    }
-    .hero h2 {
-      font-size: 3rem;
-      max-width: 700px;
-      margin-bottom: 1rem;
-    }
-    .hero p {
-      font-size: 1.25rem;
-      max-width: 600px;
-      margin: 0 auto 2rem;
-    }
-    .btn-primary {
-      background: white;
-      color: #ff0000;
-      padding: 0.8rem 2rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      font-size: 1.1rem;
-      box-shadow: 0 4px 8px rgba(255,0,0,0.3);
-    }
-    .btn-primary:hover {
-      background: #e60000;
-      color: white;
-    }
+function App() {
+  const isAuthenticated = localStorage.getItem('auth');
 
-    /* Secciones */
-    section {
-      padding: 3rem 2rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    h3 {
-      font-size: 2rem;
-      color: #ff0000;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-    p {
-      max-width: 800px;
-      margin: 0 auto 1.5rem;
-      font-size: 1.1rem;
-      color: #333;
-      line-height: 1.7;
-      text-align: center;
-    }
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/dashboard"
+          element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
+        />
+      </Routes>
+    </Router>
+  );
+}
 
-    /* Servicios - grid */
-    .services {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-    .service-item {
-      background: #f7f7f7;
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
-    }
-    .service-item:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 8px 16px rgba(255,0,0,0.3);
-    }
-    .service-item h4 {
-      margin-bottom: 0.8rem;
-      color: #ff0000;
-    }
-    .service-item p {
-      text-align: left;
-      font-size: 1rem;
-      color: #555;
-    }
+export default App;
 
-    /* Contacto */
-    .contact {
-      background: #ff0000;
-      color: white;
-      text-align: center;
-      padding: 2.5rem 1rem;
-      border-radius: 10px;
-      margin-top: 3rem;
-    }
-    .contact h3 {
-      margin-bottom: 1rem;
-      color: white;
-    }
-    .contact p {
-      margin-bottom: 1.5rem;
-      font-size: 1.2rem;
-    }
-    .contact a {
-      display: inline-block;
-      background: white;
-      color: #ff0000;
-      padding: 0.8rem 1.8rem;
-      border-radius: 25px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.3s ease;
-    }
-    .contact a:hover {
-      background: #e60000;
-      color: white;
-    }
+// src/pages/Home.jsx
+import { Link } from 'react-router-dom';
 
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 1rem 2rem;
-      font-size: 0.9rem;
-      color: #666;
-      margin-top: 3rem;
-    }
-
-    /* Responsive */
-    @media(max-width: 600px) {
-      .hero h2 {
-        font-size: 2rem;
-      }
-      .hero p {
-        font-size: 1rem;
-      }
-      header {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      nav a {
-        margin-left: 0;
-        margin-right: 1rem;
-      }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>PLB</h1>
-    <nav>
-      <a href="#que-es">¿Qué es PLB?</a>
-      <a href="#servicios">Servicios</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
-  </header>
-
-  <section class="hero">
-    <div>
-      <h2>Publicidad Digital Efectiva para Creadores y Marcas en YouTube</h2>
-      <p>Impulsa tu crecimiento con campañas personalizadas que conectan con tu audiencia.</p>
-      <button class="btn-primary" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">
-        Contáctanos
-      </button>
-    </div>
-  </section>
-
-  <section id="que-es">
-    <h3>¿Qué es PLB?</h3>
-    <p>Somos una agencia especializada en publicidad digital para YouTube, ayudando a creadores de contenido y marcas a maximizar su alcance y ventas mediante campañas estratégicas y colaboraciones con influencers.</p>
-  </section>
-
-  <section id="servicios">
-    <h3>Servicios</h3>
-    <div class="services">
-      <div class="service-item">
-        <h4>Campañas en YouTube</h4>
-        <p>Diseñamos, gestionamos y optimizamos anuncios TrueView, Bumper y Shorts para lograr el mayor impacto.</p>
-      </div>
-      <div class="service-item">
-        <h4>Marketing de Influencers</h4>
-        <p>Conectamos tu marca con youtubers relevantes para colaboraciones auténticas y efectivas.</p>
-      </div>
-      <div class="service-item">
-        <h4>Contenido Creativo</h4>
-        <p>Producimos videos y creatividades que capturan la atención y transmiten tu mensaje de forma clara.</p>
-      </div>
-      <div class="service-item">
-        <h4>Analítica y Reportes</h4>
-        <p>Monitorizamos campañas y entregamos reportes claros para maximizar tu retorno de inversión.</p>
-      </div>
-      <div class="service-item">
-        <h4>Consultoría Digital</h4>
-        <p>Asesoramos en estrategia y crecimiento para que tu presencia digital sea sólida y efectiva.</p>
+export default function Home() {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white">
+      <h1 className="text-4xl font-bold mb-6">Bienvenido a PBL</h1>
+      <div className="space-x-4">
+        <Link to="/login" className="px-4 py-2 bg-red-500 text-white rounded">Iniciar sesión</Link>
+        <Link to="/register" className="px-4 py-2 bg-gray-800 text-white rounded">Registrarse</Link>
       </div>
     </div>
-  </section>
+  );
+}
 
-  <section id="contacto" class="contact">
-    <h3>Contacto</h3>
-    <p>¿Quieres hacer crecer tu marca en YouTube? ¡Hablemos!</p>
-    <a href="mailto:contacto@plbpublicidad.com">contacto@plbpublicidad.com</a>
-  </section>
+// src/pages/Login.jsx
+import { useNavigate } from 'react-router-dom';
 
-  <footer>
-    &copy; 2025 PLB - Agencia de Publicidad Digital. Todos los derechos reservados.
-  </footer>
-</body>
-</html>
+export default function Login() {
+  const navigate = useNavigate();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    localStorage.setItem('auth', 'true');
+    navigate('/dashboard');
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <form onSubmit={handleLogin} className="bg-white p-6 rounded shadow-md w-80">
+        <h2 className="text-2xl mb-4 font-semibold text-center">Iniciar sesión</h2>
+        <input type="email" placeholder="Correo" required className="mb-3 w-full px-3 py-2 border rounded" />
+        <input type="password" placeholder="Contraseña" required className="mb-4 w-full px-3 py-2 border rounded" />
+        <button type="submit" className="w-full bg-red-500 text-white py-2 rounded">Entrar</button>
+      </form>
+    </div>
+  );
+}
+
+// src/pages/Register.jsx
+import { useNavigate } from 'react-router-dom';
+
+export default function Register() {
+  const navigate = useNavigate();
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    localStorage.setItem('auth', 'true');
+    navigate('/dashboard');
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <form onSubmit={handleRegister} className="bg-white p-6 rounded shadow-md w-80">
+        <h2 className="text-2xl mb-4 font-semibold text-center">Registrarse</h2>
+        <input type="text" placeholder="Nombre" required className="mb-3 w-full px-3 py-2 border rounded" />
+        <input type="email" placeholder="Correo" required className="mb-3 w-full px-3 py-2 border rounded" />
+        <input type="password" placeholder="Contraseña" required className="mb-4 w-full px-3 py-2 border rounded" />
+        <button type="submit" className="w-full bg-gray-800 text-white py-2 rounded">Crear cuenta</button>
+      </form>
+    </div>
+  );
+}
+
+// src/pages/Dashboard.jsx
+import { useNavigate } from 'react-router-dom';
+
+export default function Dashboard() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('auth');
+    navigate('/');
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white">
+      <h1 className="text-3xl font-bold mb-4">Bienvenido a tu panel</h1>
+      <button onClick={handleLogout} className="px-4 py-2 bg-red-500 text-white rounded">Cerrar sesión</button>
+    </div>
+  );
+}
+
+     
+     
+
+   
+ 
+ 
